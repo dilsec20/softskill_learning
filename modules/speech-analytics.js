@@ -3,43 +3,43 @@
 // =============================================
 var SpeechAnalytics = (function () {
 
-    function render() {
-        const st = App.getState();
-        const fillerHistory = st.fillerHistory || [];
-        const interviewsDone = st.interviewsDone || 0;
-        const challengesDone = (st.challengesDone || []).length;
-        const lessonsCompleted = (st.lessonsCompleted || []).length;
-        const weeklyXP = st.weeklyXP || [0, 0, 0, 0, 0, 0, 0];
-        const totalXP = st.xp || 0;
-        const level = st.level || 1;
+  function render() {
+    const st = App.getState();
+    const fillerHistory = st.fillerHistory || [];
+    const interviewsDone = st.interviewsDone || 0;
+    const challengesDone = (st.challengesDone || []).length;
+    const lessonsCompleted = (st.lessonsCompleted || []).length;
+    const weeklyXP = st.weeklyXP || [0, 0, 0, 0, 0, 0, 0];
+    const totalXP = st.xp || 0;
+    const level = st.level || 1;
 
-        // Compute filler trends
-        const avgClarity = fillerHistory.length > 0
-            ? Math.round(fillerHistory.reduce((a, h) => a + h.clarity, 0) / fillerHistory.length)
-            : null;
-        const avgWPM = fillerHistory.length > 0
-            ? Math.round(fillerHistory.reduce((a, h) => a + h.wpm, 0) / fillerHistory.length)
-            : null;
-        const lastSession = fillerHistory.length > 0 ? fillerHistory[fillerHistory.length - 1] : null;
+    // Compute filler trends
+    const avgClarity = fillerHistory.length > 0
+      ? Math.round(fillerHistory.reduce((a, h) => a + h.clarity, 0) / fillerHistory.length)
+      : null;
+    const avgWPM = fillerHistory.length > 0
+      ? Math.round(fillerHistory.reduce((a, h) => a + h.wpm, 0) / fillerHistory.length)
+      : null;
+    const lastSession = fillerHistory.length > 0 ? fillerHistory[fillerHistory.length - 1] : null;
 
-        // Trend: improving, worsening, stable?
-        let clarityTrend = null;
-        if (fillerHistory.length >= 2) {
-            const recent = fillerHistory.slice(-3).map(h => h.clarity);
-            const older = fillerHistory.slice(-6, -3).map(h => h.clarity);
-            if (older.length > 0) {
-                const recentAvg = recent.reduce((a, b) => a + b, 0) / recent.length;
-                const olderAvg = older.reduce((a, b) => a + b, 0) / older.length;
-                clarityTrend = recentAvg - olderAvg;
-            }
-        }
+    // Trend: improving, worsening, stable?
+    let clarityTrend = null;
+    if (fillerHistory.length >= 2) {
+      const recent = fillerHistory.slice(-3).map(h => h.clarity);
+      const older = fillerHistory.slice(-6, -3).map(h => h.clarity);
+      if (older.length > 0) {
+        const recentAvg = recent.reduce((a, b) => a + b, 0) / recent.length;
+        const olderAvg = older.reduce((a, b) => a + b, 0) / older.length;
+        clarityTrend = recentAvg - olderAvg;
+      }
+    }
 
-        // Level names
-        const LEVEL_NAMES = ['', 'Beginner', 'Explorer', 'Communicator', 'Confident', 'Fluent', 'Professional', 'Expert', 'Master', 'Champion', 'Legend'];
-        const DAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-        const maxXP = Math.max(...weeklyXP, 1);
+    // Level names
+    const LEVEL_NAMES = ['', 'Beginner', 'Explorer', 'Communicator', 'Confident', 'Fluent', 'Professional', 'Expert', 'Master', 'Champion', 'Legend'];
+    const DAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+    const maxXP = Math.max(...weeklyXP, 1);
 
-        document.getElementById('page-speech-analytics').innerHTML = `
+    document.getElementById('page-speech-analytics').innerHTML = `
       <div class="page-hdr">
         <h1>📊 Speech <span>Analytics</span></h1>
         <p>Your complete communication progress — track clarity, fluency, XP, and improvement trends over time</p>
@@ -48,11 +48,11 @@ var SpeechAnalytics = (function () {
       <!-- Overview stats row -->
       <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:24px">
         ${[
-                { label: 'Total XP', val: totalXP, icon: '⭐', col: 'var(--accent2)', sub: 'Level ' + level + ' · ' + LEVEL_NAMES[level] },
-                { label: 'Avg Clarity', val: avgClarity !== null ? (avgClarity + '%') : '—', icon: '🎯', col: avgClarity >= 80 ? 'var(--emerald)' : avgClarity >= 60 ? 'var(--amber)' : 'var(--rose)', sub: avgClarity !== null ? 'Over ' + fillerHistory.length + ' sessions' : 'No sessions yet' },
-                { label: 'Avg WPM', val: avgWPM || '—', icon: '⚡', col: avgWPM >= 110 && avgWPM <= 160 ? 'var(--teal)' : 'var(--amber)', sub: avgWPM ? 'Target: 120–150' : 'Start Filler Counter' },
-                { label: 'Sessions', val: fillerHistory.length, icon: '📅', col: 'var(--accent)', sub: challengesDone + ' challenges · ' + interviewsDone + ' interviews' },
-            ].map(s => `
+        { label: 'Total XP', val: totalXP, icon: '⭐', col: 'var(--accent2)', sub: 'Level ' + level + ' · ' + LEVEL_NAMES[level] },
+        { label: 'Avg Clarity', val: avgClarity !== null ? (avgClarity + '%') : '—', icon: '🎯', col: avgClarity >= 80 ? 'var(--emerald)' : avgClarity >= 60 ? 'var(--amber)' : 'var(--rose)', sub: avgClarity !== null ? 'Over ' + fillerHistory.length + ' sessions' : 'No sessions yet' },
+        { label: 'Avg WPM', val: avgWPM || '—', icon: '⚡', col: avgWPM >= 110 && avgWPM <= 160 ? 'var(--teal)' : 'var(--amber)', sub: avgWPM ? 'Target: 120–150' : 'Start Filler Counter' },
+        { label: 'Sessions', val: fillerHistory.length, icon: '📅', col: 'var(--accent)', sub: challengesDone + ' challenges · ' + interviewsDone + ' interviews' },
+      ].map(s => `
           <div class="card" style="text-align:center;padding:20px">
             <div style="font-size:28px;margin-bottom:8px">${s.icon}</div>
             <div style="font-family:var(--font2);font-size:32px;font-weight:900;color:${s.col}">${s.val}</div>
@@ -70,15 +70,15 @@ var SpeechAnalytics = (function () {
             <div class="sec-title" style="font-size:14px">📅 Weekly XP Activity</div>
             <div style="display:flex;align-items:flex-end;gap:10px;height:100px;margin-top:14px">
               ${weeklyXP.map((xp, i) => {
-                const today = new Date().getDay();
-                const pct = Math.round((xp / maxXP) * 100);
-                return `
+        const today = new Date().getDay();
+        const pct = Math.round((xp / maxXP) * 100);
+        return `
                   <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:6px">
                     <div style="font-size:10px;color:var(--accent2);font-weight:${xp > 0 ? '700' : '400'}">${xp > 0 ? xp : ''}</div>
                     <div style="width:100%;height:${Math.max(4, pct)}px;background:${i === today ? 'var(--accent)' : xp > 0 ? 'var(--accent2)' : 'var(--border2)'};border-radius:4px 4px 0 0;transition:height 0.5s"></div>
-                    <div style="font-size:10px;color:${i === today ? 'var(--accent2)' : 'var(--text3)'; font - weight: i === today ? '700' : '400'">${DAYS[i]}</div>
+                    <div style="font-size:10px;color:${i === today ? 'var(--accent2)' : 'var(--text3)'};font-weight:${i === today ? '700' : '400'}">${DAYS[i]}</div>
                   </div > `;
-              }).join('')}
+      }).join('')}
             </div>
           </div>
 
@@ -133,7 +133,7 @@ var SpeechAnalytics = (function () {
         { label: 'Clarity Score', current: avgClarity, target: 80, unit: '%', color: 'var(--emerald)' },
         { label: 'Speech Pace', current: avgWPM, target: 135, unit: ' WPM', color: 'var(--teal)' },
         { label: 'Fillers/min', current: lastSession?.fillerRate, target: 5, unit: '/min', color: 'var(--accent2)', lower: true },
-    ].map(g => {
+      ].map(g => {
         const has = g.current !== null && g.current !== undefined;
         const met = has && (g.lower ? parseFloat(g.current) <= g.target : parseFloat(g.current) >= g.target);
         return `
@@ -149,7 +149,7 @@ var SpeechAnalytics = (function () {
                     <div class="progress-fill" style="width:${has ? Math.min(100, Math.round((parseFloat(g.current) / g.target) * 100)) + '%' : '0%'};background:${met ? g.color : 'var(--accent)'}"></div>
                   </div>
                 </div>`;
-    }).join('')}
+      }).join('')}
           </div>
 
           <!-- Activity summary -->
@@ -161,7 +161,7 @@ var SpeechAnalytics = (function () {
         { icon: '⚡', label: 'Daily Challenges', val: challengesDone, total: '∞' },
         { icon: '🌊', label: 'Filler Sessions', val: fillerHistory.length, total: '∞' },
         { icon: '🔥', label: 'Day Streak', val: st.streak || 0, total: '∞' },
-    ].map(a => `
+      ].map(a => `
               <div style="display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--border2)">
                 <span style="font-size:20px">${a.icon}</span>
                 <div style="flex:1"><div style="font-size:13px;font-weight:600">${a.label}</div></div>
@@ -189,6 +189,6 @@ var SpeechAnalytics = (function () {
     `;
   }
 
-return { render };
-}) ();
+  return { render };
+})();
 window.SpeechAnalytics = SpeechAnalytics;

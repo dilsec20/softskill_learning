@@ -5,6 +5,10 @@ A professional desktop PWA for CSE students to master English communication and 
 ## Features
 - 🗺️ **12-Week Learning Path** — structured course from phonetics to interview mastery
 - 💼 **AI Interview Simulator** — paste your CV and get personalised mock interviews
+- 💻 **DSA Think-Aloud** — select FAANG algorithm problems, explain verbally, get AI graded on approach/complexity
+- 🧠 **CS Fundamentals Quiz** — verbal quizzes on OS, DBMS, Networks & System Design with AI model answers
+- 🌊 **Filler Word Counter** — speak naturally for 1-2 minutes and let AI track how many times you say "um" or "like"
+- 📊 **Speech Analytics Dashboard** — track your clarity over time, visualize WPM and Filler rates
 - 🎤 **Pronunciation Practice** — record yourself and score your pronunciation
 - 💬 **Conversation AI** — practice real scenarios (HR, standup, client calls)
 - 📚 **Vocabulary Builder** — 25 professional/CSE words with flashcards & quiz

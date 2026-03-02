@@ -2,81 +2,81 @@
 //   MODULE: DSA THINK-ALOUD PRACTICE
 // =============================================
 var DSAThinkaloud = (function () {
-    const PROBLEMS = [
-        {
-            id: 'p1', tag: 'Array', diff: 'Easy', xp: 20,
-            title: 'Two Sum',
-            problem: 'Given an array of integers nums and an integer target, return indices of the two numbers that add up to target. You may assume each input would have exactly one solution.',
-            example: 'Input: nums=[2,7,11,15], target=9 → Output: [0,1] (because nums[0]+nums[1]=9)',
-            hints: ['Think about what complement you need for each number', 'A HashMap can check existence in O(1)', 'Space-Time tradeoff: O(n) time, O(n) space'],
-            checklist: ['Did you restate the problem?', 'Did you mention brute force first?', 'Did you explain the HashMap approach?', 'Did you state O(n) time and O(n) space?', 'Did you mention the edge case (no solution)?']
-        },
-        {
-            id: 'p2', tag: 'Array', diff: 'Medium', xp: 30,
-            title: 'Maximum Subarray (Kadane\'s)',
-            problem: 'Given an array of integers, find the contiguous subarray with the largest sum and return its sum.',
-            example: 'Input: [-2,1,-3,4,-1,2,1,-5,4] → Output: 6 (subarray [4,-1,2,1])',
-            hints: ['Think: should we include previous elements or start fresh?', 'Kadane\'s algorithm: maxEndingHere = max(num, maxEndingHere + num)', 'What happens when all numbers are negative?'],
-            checklist: ['Did you explain the subproblem: include or restart?', 'Did you walk through the array step by step?', 'Did you say the time complexity is O(n)?', 'Did you mention the all-negative edge case?', 'Did you give the correct answer for the example?']
-        },
-        {
-            id: 'p3', tag: 'LinkedList', diff: 'Easy', xp: 20,
-            title: 'Reverse a Linked List',
-            problem: 'Given the head of a singly linked list, reverse the list and return the reversed list.',
-            example: 'Input: 1→2→3→4→5→NULL → Output: 5→4→3→2→1→NULL',
-            hints: ['You need 3 pointers: prev, curr, next', 'Update next, then change curr.next to prev, advance all pointers', 'Both iterative and recursive solutions exist'],
-            checklist: ['Did you explain the 3-pointer approach?', 'Did you trace through the first 1-2 steps?', 'Did you say O(n) time, O(1) space?', 'Did you mention the null base case?', 'Was your explanation clear enough for a non-programmer?']
-        },
-        {
-            id: 'p4', tag: 'Binary Search', diff: 'Medium', xp: 30,
-            title: 'Search in Rotated Sorted Array',
-            problem: 'An integer array sorted in ascending order is rotated at an unknown pivot. Given the rotated array and a target, return the index if target is found, else -1. Must be O(log n).',
-            example: 'Input: nums=[4,5,6,7,0,1,2], target=0 → Output: 4',
-            hints: ['At least one half is always sorted', 'Check which half is sorted, then check if target lies in that half', 'Standard binary search with an extra condition check'],
-            checklist: ['Did you identify this needs modified binary search?', 'Did you explain which half is always sorted?', 'Did you trace mid, left, right for each step?', 'Did you state O(log n) complexity?', 'Did you handle the no-element edge case?']
-        },
-        {
-            id: 'p5', tag: 'Tree', diff: 'Medium', xp: 30,
-            title: 'Level Order Traversal (BFS)',
-            problem: 'Given the root of a binary tree, return the level order traversal of its nodes\' values (i.e., from left to right, level by level).',
-            example: 'Input: Tree root=3, left=9, right=20(left=15,right=7) → Output: [[3],[9,20],[15,7]]',
-            hints: ['Use a Queue data structure', 'Process all nodes at current level before moving to next', 'Track when a level ends using queue size'],
-            checklist: ['Did you mention BFS (Breadth First Search)?', 'Did you explain using a Queue?', 'Did you say add null or track level by queue size?', 'Did you trace the first 2 levels?', 'Did you state O(n) time and O(n) space?']
-        },
-        {
-            id: 'p6', tag: 'DP', diff: 'Hard', xp: 50,
-            title: 'Longest Common Subsequence',
-            problem: 'Given two strings text1 and text2, return the length of their longest common subsequence. A subsequence is a sequence that appears in the same relative order, but not necessarily contiguous.',
-            example: 'Input: text1="abcde", text2="ace" → Output: 3 (LCS = "ace")',
-            hints: ['Build a 2D DP table', 'If characters match: dp[i][j] = dp[i-1][j-1] + 1', 'If they don\'t match: dp[i][j] = max(dp[i-1][j], dp[i][j-1])'],
-            checklist: ['Did you define the DP subproblem clearly?', 'Did you draw/describe the DP table?', 'Did you explain the recurrence relation?', 'Did you trace through the first 2-3 cells?', 'Did you state O(m×n) time and space?']
-        },
-        {
-            id: 'p7', tag: 'Graph', diff: 'Medium', xp: 35,
-            title: 'Number of Islands',
-            problem: 'Given an m×n grid of \'1\' (land) and \'0\' (water), count the number of islands. An island is surrounded by water and is formed by connecting adjacent lands horizontally or vertically.',
-            example: 'Input: grid with 3 disconnected groups of 1s → Output: 3',
-            hints: ['DFS/BFS from each unvisited land cell', 'Mark visited cells to avoid counting twice', 'Time complexity O(m×n)'],
-            checklist: ['Did you explain the algorithm (DFS or BFS)?', 'Did you explain how to mark visited cells?', 'Did you trace through at least one island discovery?', 'Did you state O(m×n) complexity?', 'Did you mention both DFS and BFS as options?']
-        },
-        {
-            id: 'p8', tag: 'Stack', diff: 'Easy', xp: 20,
-            title: 'Valid Parentheses',
-            problem: 'Given a string s containing just the characters \'(\', \')\', \'{\', \'}\', \'[\', \']\', determine if the input string is valid. Open brackets must be closed by the same type of brackets in the correct order.',
-            example: 'Input: "()[]{}" → true | Input: "([)]" → false | Input: "{[]}" → true',
-            hints: ['Use a Stack', 'Push opening brackets, pop and compare for closing brackets', 'If stack is empty at the end → valid'],
-            checklist: ['Did you explain the stack approach?', 'Did you explain push on open, pop/compare on close?', 'Did you trace through one valid and one invalid example?', 'Did you state O(n) time?', 'Did you mention the empty stack check at end?']
-        },
-    ];
+  const PROBLEMS = [
+    {
+      id: 'p1', tag: 'Array', diff: 'Easy', xp: 20,
+      title: 'Two Sum',
+      problem: 'Given an array of integers nums and an integer target, return indices of the two numbers that add up to target. You may assume each input would have exactly one solution.',
+      example: 'Input: nums=[2,7,11,15], target=9 → Output: [0,1] (because nums[0]+nums[1]=9)',
+      hints: ['Think about what complement you need for each number', 'A HashMap can check existence in O(1)', 'Space-Time tradeoff: O(n) time, O(n) space'],
+      checklist: ['Did you restate the problem?', 'Did you mention brute force first?', 'Did you explain the HashMap approach?', 'Did you state O(n) time and O(n) space?', 'Did you mention the edge case (no solution)?']
+    },
+    {
+      id: 'p2', tag: 'Array', diff: 'Medium', xp: 30,
+      title: 'Maximum Subarray (Kadane\'s)',
+      problem: 'Given an array of integers, find the contiguous subarray with the largest sum and return its sum.',
+      example: 'Input: [-2,1,-3,4,-1,2,1,-5,4] → Output: 6 (subarray [4,-1,2,1])',
+      hints: ['Think: should we include previous elements or start fresh?', 'Kadane\'s algorithm: maxEndingHere = max(num, maxEndingHere + num)', 'What happens when all numbers are negative?'],
+      checklist: ['Did you explain the subproblem: include or restart?', 'Did you walk through the array step by step?', 'Did you say the time complexity is O(n)?', 'Did you mention the all-negative edge case?', 'Did you give the correct answer for the example?']
+    },
+    {
+      id: 'p3', tag: 'LinkedList', diff: 'Easy', xp: 20,
+      title: 'Reverse a Linked List',
+      problem: 'Given the head of a singly linked list, reverse the list and return the reversed list.',
+      example: 'Input: 1→2→3→4→5→NULL → Output: 5→4→3→2→1→NULL',
+      hints: ['You need 3 pointers: prev, curr, next', 'Update next, then change curr.next to prev, advance all pointers', 'Both iterative and recursive solutions exist'],
+      checklist: ['Did you explain the 3-pointer approach?', 'Did you trace through the first 1-2 steps?', 'Did you say O(n) time, O(1) space?', 'Did you mention the null base case?', 'Was your explanation clear enough for a non-programmer?']
+    },
+    {
+      id: 'p4', tag: 'Binary Search', diff: 'Medium', xp: 30,
+      title: 'Search in Rotated Sorted Array',
+      problem: 'An integer array sorted in ascending order is rotated at an unknown pivot. Given the rotated array and a target, return the index if target is found, else -1. Must be O(log n).',
+      example: 'Input: nums=[4,5,6,7,0,1,2], target=0 → Output: 4',
+      hints: ['At least one half is always sorted', 'Check which half is sorted, then check if target lies in that half', 'Standard binary search with an extra condition check'],
+      checklist: ['Did you identify this needs modified binary search?', 'Did you explain which half is always sorted?', 'Did you trace mid, left, right for each step?', 'Did you state O(log n) complexity?', 'Did you handle the no-element edge case?']
+    },
+    {
+      id: 'p5', tag: 'Tree', diff: 'Medium', xp: 30,
+      title: 'Level Order Traversal (BFS)',
+      problem: 'Given the root of a binary tree, return the level order traversal of its nodes\' values (i.e., from left to right, level by level).',
+      example: 'Input: Tree root=3, left=9, right=20(left=15,right=7) → Output: [[3],[9,20],[15,7]]',
+      hints: ['Use a Queue data structure', 'Process all nodes at current level before moving to next', 'Track when a level ends using queue size'],
+      checklist: ['Did you mention BFS (Breadth First Search)?', 'Did you explain using a Queue?', 'Did you say add null or track level by queue size?', 'Did you trace the first 2 levels?', 'Did you state O(n) time and O(n) space?']
+    },
+    {
+      id: 'p6', tag: 'DP', diff: 'Hard', xp: 50,
+      title: 'Longest Common Subsequence',
+      problem: 'Given two strings text1 and text2, return the length of their longest common subsequence. A subsequence is a sequence that appears in the same relative order, but not necessarily contiguous.',
+      example: 'Input: text1="abcde", text2="ace" → Output: 3 (LCS = "ace")',
+      hints: ['Build a 2D DP table', 'If characters match: dp[i][j] = dp[i-1][j-1] + 1', 'If they don\'t match: dp[i][j] = max(dp[i-1][j], dp[i][j-1])'],
+      checklist: ['Did you define the DP subproblem clearly?', 'Did you draw/describe the DP table?', 'Did you explain the recurrence relation?', 'Did you trace through the first 2-3 cells?', 'Did you state O(m×n) time and space?']
+    },
+    {
+      id: 'p7', tag: 'Graph', diff: 'Medium', xp: 35,
+      title: 'Number of Islands',
+      problem: 'Given an m×n grid of \'1\' (land) and \'0\' (water), count the number of islands. An island is surrounded by water and is formed by connecting adjacent lands horizontally or vertically.',
+      example: 'Input: grid with 3 disconnected groups of 1s → Output: 3',
+      hints: ['DFS/BFS from each unvisited land cell', 'Mark visited cells to avoid counting twice', 'Time complexity O(m×n)'],
+      checklist: ['Did you explain the algorithm (DFS or BFS)?', 'Did you explain how to mark visited cells?', 'Did you trace through at least one island discovery?', 'Did you state O(m×n) complexity?', 'Did you mention both DFS and BFS as options?']
+    },
+    {
+      id: 'p8', tag: 'Stack', diff: 'Easy', xp: 20,
+      title: 'Valid Parentheses',
+      problem: 'Given a string s containing just the characters \'(\', \')\', \'{\', \'}\', \'[\', \']\', determine if the input string is valid. Open brackets must be closed by the same type of brackets in the correct order.',
+      example: 'Input: "()[]{}" → true | Input: "([)]" → false | Input: "{[]}" → true',
+      hints: ['Use a Stack', 'Push opening brackets, pop and compare for closing brackets', 'If stack is empty at the end → valid'],
+      checklist: ['Did you explain the stack approach?', 'Did you explain push on open, pop/compare on close?', 'Did you trace through one valid and one invalid example?', 'Did you state O(n) time?', 'Did you mention the empty stack check at end?']
+    },
+  ];
 
-    let mode = 'list'; // 'list' | 'practice' | 'result'
-    let currentProblem = null;
-    let isRec = false, transcript = '';
+  let mode = 'list'; // 'list' | 'practice' | 'result'
+  let currentProblem = null;
+  let isRec = false, transcript = '';
 
-    function render() { mode = 'list'; renderList(); }
+  function render() { mode = 'list'; renderList(); }
 
-    function renderList() {
-        document.getElementById('page-dsa-thinkaloud').innerHTML = `
+  function renderList() {
+    document.getElementById('page-dsa-thinkaloud').innerHTML = `
       <div class="page-hdr">
         <h1>💻 DSA <span>Think-Aloud</span></h1>
         <p>Choose a problem → speak your solution aloud as you would in a real interview → AI scores your explanation</p>
@@ -97,18 +97,18 @@ var DSAThinkaloud = (function () {
           </div>`).join('')}
       </div>
     `;
-        document.querySelectorAll('.start-problem-btn').forEach(btn => {
-            btn.addEventListener('click', e => {
-                e.stopPropagation();
-                const p = PROBLEMS.find(x => x.id === btn.dataset.id);
-                if (p) openProblem(p);
-            });
-        });
-    }
+    document.querySelectorAll('.start-problem-btn').forEach(btn => {
+      btn.addEventListener('click', e => {
+        e.stopPropagation();
+        const p = PROBLEMS.find(x => x.id === btn.dataset.id);
+        if (p) openProblem(p);
+      });
+    });
+  }
 
-    function openProblem(p) {
-        currentProblem = p; mode = 'practice'; isRec = false; transcript = '';
-        document.getElementById('page-dsa-thinkaloud').innerHTML = `
+  function openProblem(p) {
+    currentProblem = p; mode = 'practice'; isRec = false; transcript = '';
+    document.getElementById('page-dsa-thinkaloud').innerHTML = `
       <div style="display:flex;align-items:center;gap:10px;margin-bottom:20px">
         <button class="btn btn-ghost btn-sm" id="dsa-back"><i class="fas fa-arrow-left"></i> All Problems</button>
         <span class="chip ${p.diff === 'Easy' ? 'chip-emerald' : p.diff === 'Medium' ? 'chip-amber' : 'chip-rose'}">${p.diff}</span>
@@ -167,39 +167,60 @@ var DSAThinkaloud = (function () {
       </div>
     `;
 
-        document.getElementById('dsa-back').addEventListener('click', render);
-        setupDSAMic(p);
-    }
+    document.getElementById('dsa-back').addEventListener('click', render);
+    setupDSAMic(p);
+  }
 
-    function setupDSAMic(p) {
-        const mic = document.getElementById('dsa-mic');
-        const status = document.getElementById('dsa-status');
-        const tbox = document.getElementById('dsa-transcript-box');
-        const actions = document.getElementById('dsa-actions');
+  function setupDSAMic(p) {
+    const mic = document.getElementById('dsa-mic');
+    const status = document.getElementById('dsa-status');
+    const tbox = document.getElementById('dsa-transcript-box');
+    const actions = document.getElementById('dsa-actions');
 
-        mic.addEventListener('click', () => {
-            if (isRec) { App.SpeechRec.stop(); return; }
-            if (!App.SpeechRec.isSupported) { status.textContent = '⚠️ Chrome required for voice'; return; }
-            isRec = true; transcript = '';
-            mic.classList.add('recording');
-            status.innerHTML = '<span style="color:var(--rose)">🔴 Listening... explain your approach step by step</span>';
-            App.SpeechRec.listen(
-                t => { transcript = t; tbox.style.display = 'block'; tbox.textContent = t; },
-                () => { isRec = false; mic.classList.remove('recording'); status.innerHTML = '✅ Done! Ready to score.'; actions.style.display = 'block'; },
-                err => { isRec = false; mic.classList.remove('recording'); status.textContent = 'Error: ' + err; }
-            );
-        });
+    mic.addEventListener('click', () => {
+      if (isRec) { isRec = false; App.SpeechRec.stop(); return; }
+      if (!App.SpeechRec.isSupported) { status.textContent = '⚠️ Chrome required for voice'; return; }
+      isRec = true; transcript = '';
+      let lastText = '';
+      mic.classList.add('recording');
+      status.innerHTML = '<span style="color:var(--rose)">🔴 Listening... explain your approach step by step</span>';
 
-        document.getElementById('dsa-eval-btn')?.addEventListener('click', () => evaluateDSA(p, transcript));
-    }
+      function startListening() {
+        App.SpeechRec.listen(
+          t => { lastText = t; tbox.style.display = 'block'; tbox.textContent = transcript + (transcript ? ' ' : '') + t; },
+          () => {
+            transcript += (transcript ? ' ' : '') + lastText;
+            lastText = '';
+            if (isRec) {
+              startListening();
+            } else {
+              mic.classList.remove('recording');
+              status.innerHTML = '✅ Done! Ready to score.';
+              actions.style.display = 'block';
+            }
+          },
+          err => {
+            if (err === 'no-speech' && isRec) {
+              startListening();
+            } else {
+              isRec = false; mic.classList.remove('recording'); status.textContent = 'Error: ' + err;
+            }
+          }
+        );
+      }
+      startListening();
+    });
 
-    async function evaluateDSA(p, text) {
-        const result = document.getElementById('dsa-result');
-        const body = document.getElementById('dsa-result-body');
-        result.style.display = 'block';
-        result.scrollIntoView({ behavior: 'smooth' });
+    document.getElementById('dsa-eval-btn')?.addEventListener('click', () => evaluateDSA(p, transcript));
+  }
 
-        const prompt = `You are a FAANG-level interviewer evaluating a candidate's VERBAL explanation of a DSA problem.
+  async function evaluateDSA(p, text) {
+    const result = document.getElementById('dsa-result');
+    const body = document.getElementById('dsa-result-body');
+    result.style.display = 'block';
+    result.scrollIntoView({ behavior: 'smooth' });
+
+    const prompt = `You are a FAANG-level interviewer evaluating a candidate's VERBAL explanation of a DSA problem.
 
 Problem: "${p.title}"
 Problem Statement: "${p.problem}"
@@ -221,14 +242,14 @@ Return ONLY valid JSON:
   "modelExplanation": "How a top candidate would explain this in 3-4 sentences"
 }`;
 
-        const res = await App.callGemini(prompt);
-        if (res.error) { body.innerHTML = `<div style="color:var(--rose)">${res.error}</div>`; return; }
-        try {
-            const m = res.text.match(/\{[\s\S]*\}/);
-            const d = JSON.parse(m?.[0] || res.text);
-            const col = n => n >= 8 ? 'var(--emerald)' : n >= 6 ? 'var(--teal)' : n >= 4 ? 'var(--amber)' : 'var(--rose)';
-            const ov = d.overallScore || 5;
-            body.innerHTML = `
+    const res = await App.callGemini(prompt);
+    if (res.error) { body.innerHTML = `<div style="color:var(--rose)">${res.error}</div>`; return; }
+    try {
+      const m = res.text.match(/\{[\s\S]*\}/);
+      const d = JSON.parse(m?.[0] || res.text);
+      const col = n => n >= 8 ? 'var(--emerald)' : n >= 6 ? 'var(--teal)' : n >= 4 ? 'var(--amber)' : 'var(--rose)';
+      const ov = d.overallScore || 5;
+      body.innerHTML = `
         <div style="text-align:center;margin-bottom:18px">
           <div style="font-family:var(--font2);font-size:54px;font-weight:900;color:${col(ov)};line-height:1">${ov}</div>
           <div style="font-size:13px;color:var(--text3)">out of 10</div>
@@ -252,11 +273,11 @@ Return ONLY valid JSON:
         ${d.modelExplanation ? `<div class="model-answer"><strong style="color:var(--teal);font-size:11px;text-transform:uppercase">🏆 Model Explanation</strong><br><br>${d.modelExplanation}</div>` : ''}
         <button class="btn btn-ghost btn-full" style="margin-top:14px" id="try-again-dsa"><i class="fas fa-redo"></i> Try Again</button>
       `;
-            document.getElementById('try-again-dsa')?.addEventListener('click', () => openProblem(p));
-            App.addXP(Math.round(ov * p.xp / 10), 'DSA Think-Aloud: ' + p.title);
-        } catch (e) { body.innerHTML = `<div style="color:var(--text2)">${res.text}</div>`; }
-    }
+      document.getElementById('try-again-dsa')?.addEventListener('click', () => openProblem(p));
+      App.addXP(Math.round(ov * p.xp / 10), 'DSA Think-Aloud: ' + p.title);
+    } catch (e) { body.innerHTML = `<div style="color:var(--text2)">${res.text}</div>`; }
+  }
 
-    return { render };
+  return { render };
 })();
 window.DSAThinkaloud = DSAThinkaloud;

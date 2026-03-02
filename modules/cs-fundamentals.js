@@ -251,16 +251,37 @@ var CSFundamentals = (function () {
         const tbox = document.getElementById('cs-transcript-box');
         const evalBtn = document.getElementById('cs-eval-btn');
         mic.addEventListener('click', () => {
-            if (isRec) { App.SpeechRec.stop(); return; }
+            if (isRec) { isRec = false; App.SpeechRec.stop(); return; }
             if (!App.SpeechRec.isSupported) { status.textContent = '⚠️ Chrome required'; return; }
             isRec = true; transcript = '';
+            let lastText = '';
             mic.classList.add('recording');
             status.innerHTML = '<span style="color:var(--rose)">🔴 Listening… explain the concept</span>';
-            App.SpeechRec.listen(
-                t => { transcript = t; tbox.style.display = 'block'; tbox.textContent = t; },
-                () => { isRec = false; mic.classList.remove('recording'); status.innerHTML = '✅ Done!'; evalBtn.style.display = 'inline-flex'; },
-                err => { isRec = false; mic.classList.remove('recording'); status.textContent = 'Error: ' + err; }
-            );
+
+            function startListening() {
+                App.SpeechRec.listen(
+                    t => { lastText = t; tbox.style.display = 'block'; tbox.textContent = transcript + (transcript ? ' ' : '') + t; },
+                    () => {
+                        transcript += (transcript ? ' ' : '') + lastText;
+                        lastText = '';
+                        if (isRec) {
+                            startListening();
+                        } else {
+                            mic.classList.remove('recording');
+                            status.innerHTML = '✅ Done!';
+                            evalBtn.style.display = 'inline-flex';
+                        }
+                    },
+                    err => {
+                        if (err === 'no-speech' && isRec) {
+                            startListening();
+                        } else {
+                            isRec = false; mic.classList.remove('recording'); status.textContent = 'Error: ' + err;
+                        }
+                    }
+                );
+            }
+            startListening();
         });
         evalBtn.addEventListener('click', () => evalCS(q));
     }

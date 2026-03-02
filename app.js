@@ -22,6 +22,10 @@
         'pronunciation': 'Pronunciation', 'interview': 'Interview Simulator',
         'vocabulary': 'Vocabulary', 'conversation': 'Conversation AI',
         'daily-challenge': 'Daily Challenge', 'progress': 'My Progress',
+        'filler-counter': '🌊 Filler Word Counter',
+        'dsa-thinkaloud': '💻 DSA Think-Aloud',
+        'cs-fundamentals': '🧠 CS Fundamentals Quiz',
+        'speech-analytics': '📊 Speech Analytics',
     };
     const $ = id => document.getElementById(id);
 
@@ -109,6 +113,10 @@
             case 'conversation': try { Conversation.render(); } catch (e) { } break;
             case 'daily-challenge': try { DailyChallenge.render(); } catch (e) { } break;
             case 'progress': try { Progress.render(); } catch (e) { } break;
+            case 'filler-counter': try { FillerCounter.render(); } catch (e) { } break;
+            case 'dsa-thinkaloud': try { DSAThinkaloud.render(); } catch (e) { } break;
+            case 'cs-fundamentals': try { CSFundamentals.render(); } catch (e) { } break;
+            case 'speech-analytics': try { SpeechAnalytics.render(); } catch (e) { } break;
         }
         updateUI();
     }

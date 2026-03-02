@@ -209,11 +209,14 @@
 
     async function callModel(model, key, prompt, systemPrompt) {
         const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${key}`;
+        const isGemma = model.startsWith('gemma');
+        // Gemma models don't support systemInstruction — prepend into user message instead
+        const fullPrompt = (systemPrompt && isGemma) ? `${systemPrompt}\n\n---\n\n${prompt}` : prompt;
         const body = {
-            contents: [{ role: 'user', parts: [{ text: prompt }] }],
+            contents: [{ role: 'user', parts: [{ text: fullPrompt }] }],
             generationConfig: { temperature: 0.8, maxOutputTokens: 2048 }
         };
-        if (systemPrompt) body.systemInstruction = { parts: [{ text: systemPrompt }] };
+        if (systemPrompt && !isGemma) body.systemInstruction = { parts: [{ text: systemPrompt }] };
         const res = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
         const data = await res.json();
         if (!res.ok) throw { status: res.status, message: data.error?.message || `API error (${res.status})`, data };

@@ -1,4 +1,4 @@
-const CACHE_NAME = 'speakup-v1';
+const CACHE_NAME = 'speakup-v2';
 const ASSETS = [
   './',
   './index.html',
@@ -12,6 +12,10 @@ const ASSETS = [
   './modules/conversation.js',
   './modules/daily-challenge.js',
   './modules/progress.js',
+  './modules/filler-counter.js',
+  './modules/dsa-thinkaloud.js',
+  './modules/cs-fundamentals.js',
+  './modules/speech-analytics.js',
   './manifest.json'
 ];
 

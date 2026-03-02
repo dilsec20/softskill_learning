@@ -2,32 +2,36 @@
 //   MODULE: DASHBOARD
 // =============================================
 var Dashboard = (function () {
-    function render() {
-        const st = App.getState();
-        const LEVELS = [0, 100, 250, 500, 900, 1500, 2500, 4000, 6000, 10000];
-        const NAMES = ['', 'Beginner', 'Explorer', 'Communicator', 'Confident', 'Fluent', 'Professional', 'Expert', 'Master', 'Champion', 'Legend'];
-        const nextXP = LEVELS[st.level] || LEVELS[LEVELS.length - 1];
-        const prevXP = LEVELS[st.level - 1] || 0;
-        const pct = Math.min(100, Math.round(((st.xp - prevXP) / (nextXP - prevXP)) * 100));
-        const todayDone = (st.challengesDone || []).includes(new Date().toDateString());
-        const quote = App.randomFrom([
-            '"The only way to do great work is to love what you do." — Steve Jobs',
-            '"Every expert was once a beginner. Keep speaking!"',
-            '"Confidence is not the absence of fear — it\'s deciding something else matters more."',
-            '"Your accent is a sign of bravery — you communicate in another language!"',
-            '"The limits of my language are the limits of my world." — Wittgenstein',
-            '"Practice is the best master." Speak 10 minutes every day!',
-        ]);
-        const quickLinks = [
-            { page: 'pronunciation', icon: '🎤', color: '#6c63ff', title: 'Pronunciation', desc: 'Record & practice speaking aloud' },
-            { page: 'interview', icon: '💼', color: '#00d4b1', title: 'Interview Sim', desc: 'AI-powered mock interviews' },
-            { page: 'vocabulary', icon: '📚', color: '#f59e0b', title: 'Vocabulary', desc: 'Flashcards & word quizzes' },
-            { page: 'daily-challenge', icon: '⚡', color: '#f43f5e', title: 'Daily Challenge', desc: '5-min daily exercise' },
-            { page: 'conversation', icon: '💬', color: '#10b981', title: 'Conversation AI', desc: 'Chat with AI in scenarios' },
-            { page: 'learning-path', icon: '🗺️', color: '#8b84ff', title: 'Learning Path', desc: '12-week structured course' },
-        ];
+  function render() {
+    const st = App.getState();
+    const LEVELS = [0, 100, 250, 500, 900, 1500, 2500, 4000, 6000, 10000];
+    const NAMES = ['', 'Beginner', 'Explorer', 'Communicator', 'Confident', 'Fluent', 'Professional', 'Expert', 'Master', 'Champion', 'Legend'];
+    const nextXP = LEVELS[st.level] || LEVELS[LEVELS.length - 1];
+    const prevXP = LEVELS[st.level - 1] || 0;
+    const pct = Math.min(100, Math.round(((st.xp - prevXP) / (nextXP - prevXP)) * 100));
+    const todayDone = (st.challengesDone || []).includes(new Date().toDateString());
+    const quote = App.randomFrom([
+      '"The only way to do great work is to love what you do." — Steve Jobs',
+      '"Every expert was once a beginner. Keep speaking!"',
+      '"Confidence is not the absence of fear — it\'s deciding something else matters more."',
+      '"Your accent is a sign of bravery — you communicate in another language!"',
+      '"The limits of my language are the limits of my world." — Wittgenstein',
+      '"Practice is the best master." Speak 10 minutes every day!',
+    ]);
+    const quickLinks = [
+      { page: 'pronunciation', icon: '🎤', color: '#6c63ff', title: 'Pronunciation', desc: 'Record & practice speaking aloud' },
+      { page: 'interview', icon: '💼', color: '#00d4b1', title: 'Interview Sim', desc: 'AI-powered mock interviews' },
+      { page: 'vocabulary', icon: '📚', color: '#f59e0b', title: 'Vocabulary', desc: 'Flashcards & word quizzes' },
+      { page: 'daily-challenge', icon: '⚡', color: '#f43f5e', title: 'Daily Challenge', desc: '5-min daily exercise' },
+      { page: 'conversation', icon: '💬', color: '#10b981', title: 'Conversation AI', desc: 'Chat with AI in scenarios' },
+      { page: 'learning-path', icon: '🗺️', color: '#8b84ff', title: 'Learning Path', desc: '12-week structured course' },
+      { page: 'filler-counter', icon: '🌊', color: '#0ea5e9', title: 'Filler Counter', desc: 'Real-time um/uh tracker' },
+      { page: 'dsa-thinkaloud', icon: '💻', color: '#8b5cf6', title: 'DSA Think-Aloud', desc: 'Explain coding problems' },
+      { page: 'cs-fundamentals', icon: '🧠', color: '#f43f5e', title: 'CS Quiz', desc: 'Verbal theory questions' },
+      { page: 'speech-analytics', icon: '📊', color: '#10b981', title: 'Analytics', desc: 'Your speaking progress' },
+    ];
 
-        document.getElementById('page-dashboard').innerHTML = `
+    document.getElementById('page-dashboard').innerHTML = `
       <div class="dash-hero">
         <div class="dash-hero-name">Hey, ${st.userName} 👋</div>
         <div class="dash-hero-sub">Ready to level up your English today? Keep the streak going!</div>
@@ -117,12 +121,12 @@ var Dashboard = (function () {
       </div>
     `;
 
-        document.querySelectorAll('.quick-card[data-page]').forEach(btn =>
-            btn.addEventListener('click', () => App.navigateTo(btn.dataset.page))
-        );
-        document.getElementById('daily-cta')?.addEventListener('click', () => App.navigateTo('daily-challenge'));
-        document.getElementById('go-path')?.addEventListener('click', () => App.navigateTo('learning-path'));
-    }
-    return { render };
+    document.querySelectorAll('.quick-card[data-page]').forEach(btn =>
+      btn.addEventListener('click', () => App.navigateTo(btn.dataset.page))
+    );
+    document.getElementById('daily-cta')?.addEventListener('click', () => App.navigateTo('daily-challenge'));
+    document.getElementById('go-path')?.addEventListener('click', () => App.navigateTo('learning-path'));
+  }
+  return { render };
 })();
 window.Dashboard = Dashboard;

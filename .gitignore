@@ -1,0 +1,25 @@
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+*.suo
+*.user
+
+# Node (if ever added)
+node_modules/
+npm-debug.log*
+
+# Logs
+*.log
+
+# Environment / secrets
+.env
+.env.local
+
+# Android/Gradle (removed — not needed)
+.gradle/
+build/
+local.properties

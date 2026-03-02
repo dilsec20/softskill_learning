@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#6c63ff" />
+    <meta name="description"
+        content="AI-powered English communication coach for CSE students — interview prep, pronunciation, vocabulary" />
+    <title>SpeakUp — English Communication Coach</title>
+    <link rel="manifest" href="manifest.json" />
+    <link rel="apple-touch-icon" href="icons/icon-192.png" />
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+</head>
+
+<body>
+
+    <!-- Splash Screen -->
+    <div id="splash-screen">
+        <div class="splash-content">
+            <div class="splash-icon-ring">
+                <i class="fas fa-microphone-alt"></i>
+            </div>
+            <h1 class="splash-title">SpeakUp</h1>
+            <p class="splash-tagline">AI-Powered English Communication Coach</p>
+            <div class="splash-loader-bar">
+                <div class="splash-loader-fill"></div>
+            </div>
+            <p class="splash-hint">for CSE students & interview prep</p>
+        </div>
+    </div>
+
+    <!-- Main App -->
+    <div id="app" class="hidden">
+
+        <!-- ===== SIDEBAR ===== -->
+        <aside class="sidebar" id="sidebar">
+            <!-- Brand -->
+            <div class="sidebar-brand">
+                <div class="brand-icon"><i class="fas fa-microphone-alt"></i></div>
+                <div>
+                    <div class="brand-name">SpeakUp</div>
+                    <div class="brand-sub">English Coach</div>
+                </div>
+            </div>
+
+            <!-- User Profile -->
+            <div class="sidebar-profile">
+                <div class="profile-avatar"><i class="fas fa-user-graduate"></i></div>
+                <div class="profile-info">
+                    <div class="profile-name" id="sidebar-name">CSE Student</div>
+                    <div class="profile-level" id="sidebar-level">Level 1 · Beginner</div>
+                </div>
+            </div>
+
+            <!-- XP Bar -->
+            <div class="sidebar-xp">
+                <div class="xp-labels">
+                    <span id="sidebar-xp-val">0 XP</span>
+                    <span id="sidebar-xp-next">/ 100 XP</span>
+                </div>
+                <div class="xp-track">
+                    <div class="xp-fill" id="sidebar-xp-fill" style="width:0%"></div>
+                </div>
+            </div>
+
+            <!-- Streak -->
+            <div class="sidebar-streak">
+                <i class="fas fa-fire"></i>
+                <span id="sidebar-streak-val">0</span> day streak
+            </div>
+
+            <!-- Navigation -->
+            <nav class="sidebar-nav">
+                <div class="nav-section-label">Learn</div>
+                <button class="nav-item active" data-page="dashboard"><i
+                        class="fas fa-home"></i><span>Dashboard</span></button>
+                <button class="nav-item" data-page="learning-path"><i class="fas fa-route"></i><span>Learning
+                        Path</span></button>
+                <button class="nav-item" data-page="daily-challenge"><i class="fas fa-bolt"></i><span>Daily
+                        Challenge</span><span class="nav-badge" id="challenge-badge">!</span></button>
+
+                <div class="nav-section-label">Practice</div>
+                <button class="nav-item" data-page="pronunciation"><i
+                        class="fas fa-microphone"></i><span>Pronunciation</span></button>
+                <button class="nav-item" data-page="interview"><i class="fas fa-briefcase"></i><span>Interview
+                        Sim</span></button>
+                <button class="nav-item" data-page="conversation"><i class="fas fa-comments"></i><span>Conversation
+                        AI</span></button>
+
+                <div class="nav-section-label">Build</div>
+                <button class="nav-item" data-page="vocabulary"><i
+                        class="fas fa-book-open"></i><span>Vocabulary</span></button>
+                <button class="nav-item" data-page="progress"><i class="fas fa-chart-line"></i><span>My
+                        Progress</span></button>
+            </nav>
+
+            <!-- Settings link -->
+            <button class="sidebar-settings-link" id="settings-btn">
+                <i class="fas fa-cog"></i> Settings
+            </button>
+        </aside>
+
+        <!-- ===== MAIN CONTENT ===== -->
+        <main class="main-content">
+
+            <!-- Top Bar -->
+            <header class="top-bar">
+                <div class="topbar-left">
+                    <button class="mobile-menu-btn" id="mobile-menu-btn"><i class="fas fa-bars"></i></button>
+                    <div class="page-breadcrumb" id="page-breadcrumb">Dashboard</div>
+                </div>
+                <div class="topbar-right">
+                    <div class="topbar-streak"><i class="fas fa-fire"></i><span id="topbar-streak">0</span> streak</div>
+                    <div class="topbar-xp"><i class="fas fa-star"></i><span id="topbar-xp">0 XP</span></div>
+                    <button class="topbar-settings-btn" id="topbar-settings-btn"><i class="fas fa-cog"></i></button>
+                </div>
+            </header>
+
+            <!-- Page Content -->
+            <div class="page-wrapper">
+                <div id="page-dashboard" class="page active"></div>
+                <div id="page-learning-path" class="page"></div>
+                <div id="page-pronunciation" class="page"></div>
+                <div id="page-interview" class="page"></div>
+                <div id="page-vocabulary" class="page"></div>
+                <div id="page-conversation" class="page"></div>
+                <div id="page-daily-challenge" class="page"></div>
+                <div id="page-progress" class="page"></div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Mobile Overlay -->
+    <div class="mobile-overlay hidden" id="mobile-overlay"></div>
+
+    <!-- ===== SETTINGS MODAL ===== -->
+    <div class="modal-backdrop hidden" id="settings-modal">
+        <div class="settings-panel">
+            <div class="settings-header">
+                <h2><i class="fas fa-cog"></i> Settings</h2>
+                <button class="settings-close" id="close-settings"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="settings-body">
+                <div class="settings-section">
+                    <h3>Profile</h3>
+                    <div class="form-group">
+                        <label>Your Name</label>
+                        <input type="text" id="user-name-input" class="form-input" placeholder="e.g. Rahul Kumar" />
+                    </div>
+                    <div class="form-group">
+                        <label>Difficulty Level</label>
+                        <select id="difficulty-select" class="form-input">
+                            <option value="beginner">Beginner</option>
+                            <option value="intermediate" selected>Intermediate</option>
+                            <option value="advanced">Advanced</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="settings-section">
+                    <h3><i class="fas fa-robot" style="color:#6c63ff"></i> Gemini AI</h3>
+                    <p class="settings-hint">Required for Interview Simulator and Conversation Practice. <a
+                            href="https://aistudio.google.com/app/apikey" target="_blank" class="link">Get free key
+                            →</a></p>
+                    <div class="form-group">
+                        <label>API Key</label>
+                        <div class="input-wrap">
+                            <input type="password" id="api-key-input" class="form-input" placeholder="AIza..." />
+                            <button class="input-toggle" id="toggle-key"><i class="fas fa-eye"></i></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="settings-actions">
+                    <button class="btn-save" id="save-settings"><i class="fas fa-save"></i> Save Settings</button>
+                    <button class="btn-reset" id="reset-progress"><i class="fas fa-trash"></i> Reset Progress</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast -->
+    <div class="toast hidden" id="toast"></div>
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+
+    <!-- Modules -->
+    <script src="modules/dashboard.js"></script>
+    <script src="modules/learning-path.js"></script>
+    <script src="modules/pronunciation.js"></script>
+    <script src="modules/interview-simulator.js"></script>
+    <script src="modules/vocabulary.js"></script>
+    <script src="modules/conversation.js"></script>
+    <script src="modules/daily-challenge.js"></script>
+    <script src="modules/progress.js"></script>
+
+    <!-- Core -->
+    <script src="app.js"></script>
+</body>
+
+</html>

@@ -2,63 +2,63 @@
 //   MODULE: DAILY CHALLENGE (with AI Evaluation)
 // =============================================
 var DailyChallenge = (function () {
-    const CHAL = [
-        {
-            icon: '📖', title: 'Read Aloud', desc: 'Read clearly & confidently', xp: 30,
-            content: 'Technology is transforming the way we work and communicate. As a software engineer, the ability to explain complex systems in simple terms is just as valuable as writing efficient code. Good communication builds trust, accelerates projects, and opens doors to leadership opportunities.',
-            instruction: 'Read slowly. Focus on: technology, communicate, efficient, opportunities.',
-            evalFocus: 'pronunciation clarity, pace, stress on key words, and fluency'
-        },
-        {
-            icon: '🖼️', title: 'Describe a Scenario', desc: '60-second structured answer', xp: 30,
-            content: 'You join a new team and discover the codebase is messy with no documentation. Your manager asks you to improve it. How would you approach this?',
-            instruction: 'Use STAR method: Situation, Task, Action, Result. Speak for 60+ seconds.',
-            evalFocus: 'use of STAR method, clarity of plan, professional vocabulary, and confidence'
-        },
-        {
-            icon: '✏️', title: 'Grammar Fix', desc: 'Spot and correct the errors', xp: 30,
-            content: '1. "I am working here since 3 years."\n2. "She don\'t know the answer."\n3. "I have went to that conference yesterday."\n4. "The code is more better now."\n5. "He said me that the build was fail."',
-            instruction: 'Speak the corrected version of each sentence aloud clearly.',
-            evalFocus: 'correct grammar corrections, confidence, and clear articulation of each fix'
-        },
-        {
-            icon: '🙋', title: 'Self Introduction', desc: '60-second elevator pitch', xp: 30,
-            content: 'Introduce yourself as if appearing for your dream job at Google, Microsoft, or a top startup.',
-            instruction: 'Cover: Name, College, Year, Key skills, One project, Why this role. Under 90 seconds!',
-            evalFocus: 'structure (present-past-future), specific details, confidence, grammar, no fillers'
-        },
-        {
-            icon: '💡', title: 'Express Opinion', desc: 'Give your view on a hot topic', xp: 30,
-            content: '"AI will replace software engineers in the next 10 years." — Do you agree or disagree? Why?',
-            instruction: 'Start with "In my opinion..." Use examples. 60-90 seconds. Be confident!',
-            evalFocus: 'clear stance, supporting arguments, professional vocabulary, and sentence fluency'
-        },
-        {
-            icon: '🎤', title: 'Pronunciation Challenge', desc: 'Technical paragraph — read aloud', xp: 30,
-            content: 'The asynchronous architecture ensures scalability and resilience. Specifically, the distributed microservices communicate through RESTful APIs and message queues, providing approximately 99.9% uptime with particularly efficient throughput.',
-            instruction: 'Read slowly. These are commonly mispronounced in interviews.',
-            evalFocus: 'pronunciation of technical words (asynchronous, particularly, microservices, RESTful, throughput), pace and clarity'
-        },
-        {
-            icon: '📊', title: 'Explain Your Project', desc: 'Explain to a non-technical person', xp: 30,
-            content: 'Imagine your project is being presented to a non-tech VP. They want to know: What problem does it solve? How does it work? What was YOUR contribution? What was the impact?',
-            instruction: 'Speak 60-90 seconds. Avoid jargon. Use analogies. Use "I built", "I designed".',
-            evalFocus: 'simplicity of language, avoidance of jargon, clear structure, personal ownership words (I built/designed)'
-        },
-    ];
+  const CHAL = [
+    {
+      icon: '📖', title: 'Read Aloud', desc: 'Read clearly & confidently', xp: 30,
+      content: 'Technology is transforming the way we work and communicate. As a software engineer, the ability to explain complex systems in simple terms is just as valuable as writing efficient code. Good communication builds trust, accelerates projects, and opens doors to leadership opportunities.',
+      instruction: 'Read slowly. Focus on: technology, communicate, efficient, opportunities.',
+      evalFocus: 'pronunciation clarity, pace, stress on key words, and fluency'
+    },
+    {
+      icon: '🖼️', title: 'Describe a Scenario', desc: '60-second structured answer', xp: 30,
+      content: 'You join a new team and discover the codebase is messy with no documentation. Your manager asks you to improve it. How would you approach this?',
+      instruction: 'Use STAR method: Situation, Task, Action, Result. Speak for 60+ seconds.',
+      evalFocus: 'use of STAR method, clarity of plan, professional vocabulary, and confidence'
+    },
+    {
+      icon: '✏️', title: 'Grammar Fix', desc: 'Spot and correct the errors', xp: 30,
+      content: '1. "I am working here since 3 years."\n2. "She don\'t know the answer."\n3. "I have went to that conference yesterday."\n4. "The code is more better now."\n5. "He said me that the build was fail."',
+      instruction: 'Speak the corrected version of each sentence aloud clearly.',
+      evalFocus: 'correct grammar corrections, confidence, and clear articulation of each fix'
+    },
+    {
+      icon: '🙋', title: 'Self Introduction', desc: '60-second elevator pitch', xp: 30,
+      content: 'Introduce yourself as if appearing for your dream job at Google, Microsoft, or a top startup.',
+      instruction: 'Cover: Name, College, Year, Key skills, One project, Why this role. Under 90 seconds!',
+      evalFocus: 'structure (present-past-future), specific details, confidence, grammar, no fillers'
+    },
+    {
+      icon: '💡', title: 'Express Opinion', desc: 'Give your view on a hot topic', xp: 30,
+      content: '"AI will replace software engineers in the next 10 years." — Do you agree or disagree? Why?',
+      instruction: 'Start with "In my opinion..." Use examples. 60-90 seconds. Be confident!',
+      evalFocus: 'clear stance, supporting arguments, professional vocabulary, and sentence fluency'
+    },
+    {
+      icon: '🎤', title: 'Pronunciation Challenge', desc: 'Technical paragraph — read aloud', xp: 30,
+      content: 'The asynchronous architecture ensures scalability and resilience. Specifically, the distributed microservices communicate through RESTful APIs and message queues, providing approximately 99.9% uptime with particularly efficient throughput.',
+      instruction: 'Read slowly. These are commonly mispronounced in interviews.',
+      evalFocus: 'pronunciation of technical words (asynchronous, particularly, microservices, RESTful, throughput), pace and clarity'
+    },
+    {
+      icon: '📊', title: 'Explain Your Project', desc: 'Explain to a non-technical person', xp: 30,
+      content: 'Imagine your project is being presented to a non-tech VP. They want to know: What problem does it solve? How does it work? What was YOUR contribution? What was the impact?',
+      instruction: 'Speak 60-90 seconds. Avoid jargon. Use analogies. Use "I built", "I designed".',
+      evalFocus: 'simplicity of language, avoidance of jargon, clear structure, personal ownership words (I built/designed)'
+    },
+  ];
 
-    let isRec = false, elapsed = 0, interval = null;
-    let recordedTranscript = '';
+  let isRec = false, elapsed = 0, interval = null;
+  let recordedTranscript = '';
 
-    function render() {
-        const st = App.getState();
-        const today = new Date().toDateString();
-        const ci = new Date().getDate() % CHAL.length;
-        const c = CHAL[ci];
-        const done = (st.challengesDone || []).includes(today);
-        recordedTranscript = '';
+  function render() {
+    const st = App.getState();
+    const today = new Date().toDateString();
+    const ci = new Date().getDate() % CHAL.length;
+    const c = CHAL[ci];
+    const done = (st.challengesDone || []).includes(today);
+    recordedTranscript = '';
 
-        document.getElementById('page-daily-challenge').innerHTML = `
+    document.getElementById('page-daily-challenge').innerHTML = `
       <div class="page-hdr">
         <h1>⚡ Daily <span>Challenge</span></h1>
         <p>${done ? '✅ Today\'s challenge complete! Come back tomorrow for a new one.' : 'A new 5-minute exercise every day — earn +30 XP bonus!'}</p>
@@ -172,96 +172,110 @@ var DailyChallenge = (function () {
       </div>
     `;
 
-        if (!done) setupRecording(c, today);
-    }
+    if (!done) setupRecording(c, today);
+  }
 
-    // ── Recording logic ──
-    function setupRecording(c, today) {
-        const mic = document.getElementById('ch-mic');
-        const status = document.getElementById('ch-status');
-        const timerEl = document.getElementById('ch-timer');
-        const transcriptWrap = document.getElementById('ch-transcript-wrap');
-        const transcriptEl = document.getElementById('ch-transcript');
-        const actions = document.getElementById('ch-actions');
-        const getEvalBtn = document.getElementById('get-eval-btn');
-        const doneBtn = document.getElementById('ch-done-btn');
+  // ── Recording logic ──
+  function setupRecording(c, today) {
+    const mic = document.getElementById('ch-mic');
+    const status = document.getElementById('ch-status');
+    const timerEl = document.getElementById('ch-timer');
+    const transcriptWrap = document.getElementById('ch-transcript-wrap');
+    const transcriptEl = document.getElementById('ch-transcript');
+    const actions = document.getElementById('ch-actions');
+    const getEvalBtn = document.getElementById('get-eval-btn');
+    const doneBtn = document.getElementById('ch-done-btn');
 
-        if (!mic) return;
+    if (!mic) return;
 
-        mic.addEventListener('click', () => {
+    mic.addEventListener('click', () => {
+      if (isRec) {
+        isRec = false;
+        App.SpeechRec.stop();
+        return;
+      }
+      if (!App.SpeechRec.isSupported) {
+        // show text input area instead
+        document.getElementById('ch-text-wrap').style.display = 'block';
+        actions.style.display = 'block';
+        return;
+      }
+      isRec = true; elapsed = 0; recordedTranscript = '';
+      let lastText = '';
+      mic.classList.add('recording');
+      timerEl.style.display = 'block';
+      status.innerHTML = '<span style="color:var(--rose)">🔴 Recording… speak your answer clearly</span>';
+      interval = setInterval(() => {
+        elapsed++;
+        const m = String(Math.floor(elapsed / 60)).padStart(2, '0');
+        const s = String(elapsed % 60).padStart(2, '0');
+        timerEl.textContent = `${m}:${s}`;
+      }, 1000);
+
+      function startListening() {
+        App.SpeechRec.listen(
+          t => {
+            lastText = t;
+            transcriptEl.textContent = recordedTranscript + (recordedTranscript ? ' ' : '') + t;
+            transcriptWrap.style.display = 'block';
+          },
+          () => {
+            recordedTranscript += (recordedTranscript ? ' ' : '') + lastText;
+            lastText = '';
             if (isRec) {
-                App.SpeechRec.stop();
-                clearInterval(interval);
-                return;
-            }
-            if (!App.SpeechRec.isSupported) {
-                // show text input area instead
+              startListening(); // keep recording continuously
+            } else {
+              clearInterval(interval);
+              mic.classList.remove('recording');
+              status.innerHTML = `✅ Recorded <strong>${timerEl.textContent}</strong> — review your answer below`;
+              actions.style.display = 'block';
+              if (!recordedTranscript) {
+                status.innerHTML += '<br><span style="color:var(--amber);font-size:12px">No speech detected. Type your answer instead.</span>';
                 document.getElementById('ch-text-wrap').style.display = 'block';
-                actions.style.display = 'block';
-                return;
+              }
             }
-            isRec = true; elapsed = 0; recordedTranscript = '';
-            mic.classList.add('recording');
-            timerEl.style.display = 'block';
-            status.innerHTML = '<span style="color:var(--rose)">🔴 Recording… speak your answer clearly</span>';
-            interval = setInterval(() => {
-                elapsed++;
-                const m = String(Math.floor(elapsed / 60)).padStart(2, '0');
-                const s = String(elapsed % 60).padStart(2, '0');
-                timerEl.textContent = `${m}:${s}`;
-            }, 1000);
-
-            App.SpeechRec.listen(
-                t => {
-                    recordedTranscript = t;
-                    transcriptEl.textContent = t;
-                    transcriptWrap.style.display = 'block';
-                },
-                () => {
-                    isRec = false; clearInterval(interval);
-                    mic.classList.remove('recording');
-                    status.innerHTML = `✅ Recorded <strong>${timerEl.textContent}</strong> — review your answer below`;
-                    actions.style.display = 'block';
-                    if (!recordedTranscript) {
-                        status.innerHTML += '<br><span style="color:var(--amber);font-size:12px">No speech detected. Type your answer instead.</span>';
-                        document.getElementById('ch-text-wrap').style.display = 'block';
-                    }
-                },
-                err => {
-                    isRec = false; clearInterval(interval);
-                    mic.classList.remove('recording');
-                    status.textContent = 'Mic error: ' + err + ' — type your answer instead.';
-                    document.getElementById('ch-text-wrap').style.display = 'block';
-                    actions.style.display = 'block';
-                }
-            );
-        });
-
-        getEvalBtn?.addEventListener('click', () => {
-            // Get answer from transcript or text input
-            const typed = document.getElementById('ch-text-input')?.value?.trim();
-            const answer = recordedTranscript || typed || '';
-            if (!answer) {
-                App.toast('Please record or type your answer first', 'error');
-                return;
+          },
+          err => {
+            if (err === 'no-speech' && isRec) {
+              startListening(); // silence — keep going
+            } else {
+              isRec = false; clearInterval(interval);
+              mic.classList.remove('recording');
+              status.textContent = 'Mic error: ' + err + ' — type your answer instead.';
+              document.getElementById('ch-text-wrap').style.display = 'block';
+              actions.style.display = 'block';
             }
-            evaluateAnswer(c, answer, today);
-        });
+          }
+        );
+      }
+      startListening();
+    });
 
-        doneBtn?.addEventListener('click', () => markComplete(today, c.xp, false));
-    }
+    getEvalBtn?.addEventListener('click', () => {
+      // Get answer from transcript or text input
+      const typed = document.getElementById('ch-text-input')?.value?.trim();
+      const answer = recordedTranscript || typed || '';
+      if (!answer) {
+        App.toast('Please record or type your answer first', 'error');
+        return;
+      }
+      evaluateAnswer(c, answer, today);
+    });
 
-    // ── AI Evaluation ──
-    async function evaluateAnswer(c, answer, today) {
-        const panel = document.getElementById('ai-feedback-panel');
-        const fbContent = document.getElementById('ai-fb-content');
-        const actions = document.getElementById('ch-actions');
+    doneBtn?.addEventListener('click', () => markComplete(today, c.xp, false));
+  }
 
-        panel.style.display = 'block';
-        actions.style.display = 'none';
-        panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  // ── AI Evaluation ──
+  async function evaluateAnswer(c, answer, today) {
+    const panel = document.getElementById('ai-feedback-panel');
+    const fbContent = document.getElementById('ai-fb-content');
+    const actions = document.getElementById('ch-actions');
 
-        const prompt = `You are an expert English communication coach evaluating a CSE (Computer Science Engineering) student's spoken answer for a daily English practice challenge.
+    panel.style.display = 'block';
+    actions.style.display = 'none';
+    panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+    const prompt = `You are an expert English communication coach evaluating a CSE (Computer Science Engineering) student's spoken answer for a daily English practice challenge.
 
 Challenge Type: "${c.title}"
 Challenge Task: "${c.content}"
@@ -287,31 +301,31 @@ Return ONLY valid JSON with this structure:
   "betterVersion": "A model answer showing how this could be said better (2-4 sentences)"
 }`;
 
-        const res = await App.callGemini(prompt);
+    const res = await App.callGemini(prompt);
 
-        if (res.error) {
-            fbContent.innerHTML = `
+    if (res.error) {
+      fbContent.innerHTML = `
         <div style="color:var(--rose);font-size:13px;padding:10px;text-align:left">
           <i class="fas fa-exclamation-triangle"></i> ${res.error}
         </div>
         <button class="btn btn-ghost btn-sm" id="skip-eval-btn" style="margin-top:12px">
           Mark Complete Without Evaluation (+${c.xp} XP)
         </button>`;
-            document.getElementById('skip-eval-btn')?.addEventListener('click', () => markComplete(today, c.xp, false));
-            return;
-        }
+      document.getElementById('skip-eval-btn')?.addEventListener('click', () => markComplete(today, c.xp, false));
+      return;
+    }
 
-        try {
-            const m = res.text.match(/\{[\s\S]*\}/);
-            const data = JSON.parse(m?.[0] || res.text);
-            const sc = n => {
-                const col = n >= 8 ? 'var(--emerald)' : n >= 6 ? 'var(--teal)' : n >= 4 ? 'var(--amber)' : 'var(--rose)';
-                return `<span style="font-family:var(--font2);font-size:22px;font-weight:900;color:${col}">${n}</span><span style="font-size:11px;color:var(--text3)">/10</span>`;
-            };
-            const overall = data.overallScore || Math.round(Object.values(data.scores || {}).reduce((a, b) => a + b, 0) / 5);
-            const ovCol = overall >= 8 ? 'var(--emerald)' : overall >= 6 ? 'var(--teal)' : overall >= 4 ? 'var(--amber)' : 'var(--rose)';
+    try {
+      const m = res.text.match(/\{[\s\S]*\}/);
+      const data = JSON.parse(m?.[0] || res.text);
+      const sc = n => {
+        const col = n >= 8 ? 'var(--emerald)' : n >= 6 ? 'var(--teal)' : n >= 4 ? 'var(--amber)' : 'var(--rose)';
+        return `<span style="font-family:var(--font2);font-size:22px;font-weight:900;color:${col}">${n}</span><span style="font-size:11px;color:var(--text3)">/10</span>`;
+      };
+      const overall = data.overallScore || Math.round(Object.values(data.scores || {}).reduce((a, b) => a + b, 0) / 5);
+      const ovCol = overall >= 8 ? 'var(--emerald)' : overall >= 6 ? 'var(--teal)' : overall >= 4 ? 'var(--amber)' : 'var(--rose)';
 
-            fbContent.innerHTML = `
+      fbContent.innerHTML = `
         <!-- Overall score -->
         <div style="text-align:center;margin-bottom:20px;padding:16px;background:var(--bg2);border-radius:12px">
           <div style="font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px">Overall Score</div>
@@ -365,26 +379,26 @@ Return ONLY valid JSON with this structure:
         </button>
       `;
 
-            document.getElementById('final-done-btn')?.addEventListener('click', () => markComplete(today, c.xp, true));
+      document.getElementById('final-done-btn')?.addEventListener('click', () => markComplete(today, c.xp, true));
 
-        } catch (e) {
-            fbContent.innerHTML = `
+    } catch (e) {
+      fbContent.innerHTML = `
         <div style="font-size:13px;color:var(--text2);line-height:1.7;margin-bottom:12px">${res.text}</div>
         <button class="btn btn-primary btn-sm" id="fallback-done-btn">Mark Complete (+${c.xp} XP)</button>`;
-            document.getElementById('fallback-done-btn')?.addEventListener('click', () => markComplete(today, c.xp, false));
-        }
+      document.getElementById('fallback-done-btn')?.addEventListener('click', () => markComplete(today, c.xp, false));
     }
+  }
 
-    // ── Mark Complete ──
-    function markComplete(today, xp, hadEval) {
-        const st = App.getState();
-        const done = [...(st.challengesDone || [])];
-        if (!done.includes(today)) done.push(today);
-        App.setState({ challengesDone: done });
-        App.addXP(xp, `Daily Challenge${hadEval ? ' (AI Evaluated)' : ''}`);
-        render();
-    }
+  // ── Mark Complete ──
+  function markComplete(today, xp, hadEval) {
+    const st = App.getState();
+    const done = [...(st.challengesDone || [])];
+    if (!done.includes(today)) done.push(today);
+    App.setState({ challengesDone: done });
+    App.addXP(xp, `Daily Challenge${hadEval ? ' (AI Evaluated)' : ''}`);
+    render();
+  }
 
-    return { render };
+  return { render };
 })();
 window.DailyChallenge = DailyChallenge;

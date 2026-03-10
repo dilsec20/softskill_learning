@@ -204,15 +204,16 @@
     }
 
     // ---- GEMINI ----
-    // Free tier models (in priority order):
-    //   gemma-3-27b-it             : 30 RPM, 15K TPM, 14,400 RPD  ← PRIMARY (best free quota!)
-    //   gemini-2.5-flash-lite      : 10 RPM, 250K TPM,     20 RPD  ← fallback (higher quality)
-    //   gemini-2.5-flash           :  5 RPM, 250K TPM,     20 RPD  ← last resort
-    // Note: Gemini 2.5 Flash Native Audio Dialog is WebSocket Live API — not usable here
+    // Free tier models (in priority order) — cascading fallback on 429 rate-limit errors
+    // We try MANY models so that the user almost never hits the daily limit.
     const GEMINI_MODELS = [
-        'gemma-3-27b-it',                        // 14,400 req/day FREE
-        'gemini-2.5-flash-lite-preview-06-17',   // 20 req/day, higher quality
-        'gemini-2.5-flash',                      // 20 req/day, best quality
+        'gemma-3-27b-it',                        // 14,400 req/day FREE (primary)
+        'gemini-2.0-flash',                      // 1,000 req/day FREE
+        'gemini-2.0-flash-lite',                 // 1,000 req/day FREE
+        'gemini-2.5-flash-preview-05-20',        //   100 req/day FREE
+        'gemini-2.5-pro-preview-05-06',          //   100 req/day FREE
+        'gemini-2.5-flash-lite-preview-06-17',   //    20 req/day FREE
+        'gemini-2.5-flash',                      //    20 req/day FREE
     ];
 
     async function callModel(model, key, prompt, systemPrompt) {
@@ -239,9 +240,9 @@
                 const text = await callModel(model, key, prompt, systemPrompt);
                 return { text };
             } catch (e) {
-                // 429 = rate limited → try next model
-                if (e.status === 429) {
-                    console.warn(`Rate limited on ${model}, trying next...`);
+                // 429 = rate limited, 403 = model not available → try next model
+                if (e.status === 429 || e.status === 403) {
+                    console.warn(`${e.status} on ${model}, trying next...`);
                     continue;
                 }
                 // 400 = bad request (prompt issue, not model issue)
@@ -251,7 +252,7 @@
             }
         }
         // All models exhausted
-        return { error: '⚠️ Daily free limit reached (20 requests/day on free tier). Try again tomorrow, or upgrade to a paid API key.' };
+        return { error: '⚠️ Daily free limit reached on ALL models. Try again in a few hours, or add a paid Gemini API key in Settings.' };
     };
 
     // ---- SPEECH REC ----

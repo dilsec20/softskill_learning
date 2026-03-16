@@ -4,7 +4,7 @@
 (function () {
     'use strict';
     const _app = {};
-    const DEFAULT_API_KEY = 'AIzaSyDpDUIXJ4eS1_rvPDqhWreM4M9ohfAzm0g';
+    const DEFAULT_API_KEY = 'AIzaSyA9tYShlm7zgX66BftDHVVZ1N-3U5NEMsc';
 
     // ---- STATE ----
     let state = {
@@ -204,16 +204,13 @@
     }
 
     // ---- GEMINI ----
-    // Free tier models (in priority order) — cascading fallback on 429 rate-limit errors
-    // We try MANY models so that the user almost never hits the daily limit.
+    // Only Gemma 3 models have free quota (14,400 req/day each).
+    // Cascade: 27B (best) → 12B → 4B → 1B (lightest)
     const GEMINI_MODELS = [
-        'gemma-3-27b-it',                        // 14,400 req/day FREE (primary)
-        'gemini-2.0-flash',                      // 1,000 req/day FREE
-        'gemini-2.0-flash-lite',                 // 1,000 req/day FREE
-        'gemini-2.5-flash-preview-05-20',        //   100 req/day FREE
-        'gemini-2.5-pro-preview-05-06',          //   100 req/day FREE
-        'gemini-2.5-flash-lite-preview-06-17',   //    20 req/day FREE
-        'gemini-2.5-flash',                      //    20 req/day FREE
+        'gemma-3-27b-it',   // 14,400 req/day, 30 RPM, 15K TPM
+        'gemma-3-12b-it',   // 14,400 req/day, 30 RPM, 15K TPM
+        'gemma-3-4b-it',    // 14,400 req/day, 30 RPM, 15K TPM
+        'gemma-3-1b-it',    // 14,400 req/day, 30 RPM, 15K TPM
     ];
 
     async function callModel(model, key, prompt, systemPrompt) {

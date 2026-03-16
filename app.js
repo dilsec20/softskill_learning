@@ -142,12 +142,10 @@
         });
     }
 
-    // ---- SETTINGS ----
     function setupSettings() {
         const modal = $('settings-modal');
         const openSettings = () => {
             $('user-name-input').value = state.userName;
-            $('api-key-input').value = state.apiKey;
             $('difficulty-select').value = state.difficulty;
             modal.classList.remove('hidden');
         };
@@ -157,16 +155,10 @@
         modal?.addEventListener('click', e => { if (e.target === modal) modal.classList.add('hidden'); });
         $('save-settings')?.addEventListener('click', () => {
             state.userName = $('user-name-input').value.trim() || 'CSE Student';
-            state.apiKey = $('api-key-input').value.trim() || DEFAULT_API_KEY;
             state.difficulty = $('difficulty-select').value;
             saveState(); updateUI();
             modal.classList.add('hidden');
             _app.toast('Settings saved! ✅', 'success');
-        });
-        $('toggle-key')?.addEventListener('click', () => {
-            const inp = $('api-key-input');
-            inp.type = inp.type === 'password' ? 'text' : 'password';
-            $('toggle-key').innerHTML = inp.type === 'password' ? '<i class="fas fa-eye"></i>' : '<i class="fas fa-eye-slash"></i>';
         });
         $('reset-progress')?.addEventListener('click', () => {
             if (confirm('Reset ALL progress? This cannot be undone!')) {

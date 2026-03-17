@@ -4,7 +4,7 @@
 (function () {
     'use strict';
     const _app = {};
-    const DEFAULT_API_KEY = 'AIzaSyBlIANvi06eGDR2lNFjGARqnIgTBnxEfnU';
+    const DEFAULT_API_KEY = 'AIzaSyB5f6QCy4DVyGwRe4QyFXV3H_rMUlW0avc';
 
     // ---- STATE ----
     let state = {
